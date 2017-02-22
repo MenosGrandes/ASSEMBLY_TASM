@@ -1,0 +1,85 @@
+
+
++----------------------------------------------------------------------------+
+|                     BIOS dla programuj•cych w C i C++                      |
++----------------------------------------------------------------------------+
+
+     Dyskietka ta zawiera wszystkie przykàady program¢w i funkcji uæywane
+     w ksi•æce "BIOS dla programuj•cych w C i C++".  ù•cznie zawiera ona
+     blisko megabajt plik¢w ´r¢dàowych i wykonywalnych !
+     Zanim zainstalujesz to oprogramowanie, kilka formalnoòci.
+
+
+                              Umowa licencyjna
+                              ----------------
+
+     Wszystkie programy i funkcje zamieszczone na tej dyskietce obj©te
+     s• prawem autorskim. Niniejszym udzielamy indywidualnej licencji
+     na ich uæycie.  Licencja ta upowaænia Ci© do:
+
+     - uæywania plik¢w ´r¢dàowych (*.C) w formie jakiej zostaày
+       dostarczone oraz modyfikowanie ich na wàasny uæytek
+
+     - uæywania i rekompilacji plik¢w wykonywalnych (*.EXE) oraz
+       uæywania fragment¢w ich plik¢w ´r¢dàowych we wàasnych programach
+
+     - uæywania niekt¢rych lub wszystkich funkcji C we wàasnych programach,
+       zar¢wno uæywanych samemu, oferowanych do sprzedaæy lub w inny spos¢b
+       udost©pnianych do publicznej dystrybucji.
+
+     Licencja nie zezwala na dystrybucj©, przepakowywanie,
+     przekazywanie ani odsprzedaæ niniejszej dyskietki lub plik¢w
+     na niej umieszczonych.  Moæesz jednak wykonywaÜ nieograniczon•
+     iloòÜ kopii dyskietki i jej zawartoòci na uæytek osobisty, pod
+     warunkiem, æe pozostajesz wàaòcicielem/wàaòcicielk• wszystkich
+     tych kopii.
+
+     Autor i wydawca nie udzielaj• æadnej gwarancji ani r©kojmi na
+     niniejsze oprogramowanie.  Uæytkownik ponosi caàkowite ryzyko
+     zwi•zane z jakoòci• i parametrami oprogramowania zawieraj•cego
+     zamieszczone tutaj funkcje i programy.
+
+
+
+
+                          Instalacja oprogramowania
+                          -------------------------
+
+     Aby zainstalowaÜ oprogramowanie na dysku staàym:
+           
+                    KROK                             PRZYKùAD
+     ---------------------------------     --------------------------
+     1) Utw¢rz na dysku katalog,            MD C:\C-BIOS
+        w kt¢rym chcesz umieòciÜ pliki
+
+     2) Uæyj polecenia DOS XCOPY aby        XCOPY A:\*.* C:\C-BIOS /S
+        skopiowaÜ pliki z dyskietki
+        do utworzonego katalogu
+
+     Organizacja plik¢w na dysku odpowiada strukturze ksi•æki.
+     Na przykàad katalog ROZDZIAL.3 zawiera programy i pliki
+     ´r¢dàowe zamieszczone w rozdziale 3, DODATEK.A zawiera programy
+     zamieszczone w Dodatku A, itp. itd..
+
+
+
+                  Jak skontaktowaÜ si© z autorem i wydawc•
+                  ----------------------------------------
+
+     Jeæeli macie Pa‰stwo jakieò pytania lub sugestie dotycz•ce tej
+     ksi•æki lub dyskietki, moæecie si© skontaktowaÜ z autorem
+     korzystaj•c z sieci Compuserve (mail ID 72707,625) lub napisaÜ
+     do wydawcy na adres:
+
+                     Slawson Communications, Inc.
+                     2075 Corte del Nogal, Suite E
+                     Carlsbad, California; 92009-1414
+
+
+     albo do wydawcy polskiego:
+
+               	     Wydawnicto NAKOM
+                     61-774 Pozna‰
+                     ul. Wielka 10
+
+

@@ -1,0 +1,27 @@
+; Dos Navigator Search Paths file
+
+;--------------------------------------------------------------------------
+; Format:
+; ~~~~~~~
+; <Format string> ::= <Comment> | <Section> | <Path>
+; <Comment> ::= <;> Any text
+; <Section> ::= <[> <Extension> { <,> <Extension> } <]>
+; <Path> ::= <Directory> { <;> <Directory> }
+; <Directory> ::= [ <*> | <+> ] <MS-DOS Directory>
+; 
+; Comments:
+; ~~~~~~~~~
+; {} - parameter can repeated 0 and more time
+; [] - optional parameter
+;  * - in first char of directory - recurrent search in
+;      directory and all its subdirectory
+;  + - in first char of directory - recurrent search in
+;      directory and all its first level subdirectorys
+; 
+; 
+; Example:
+; ~~~~~~~~
+; [pas,atl]
+; *c:\bp\rtl\;c:\my\units
+; i:\vex\atl\
+;------------------------------------------------------------- (c) Viv'99 -

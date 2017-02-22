@@ -1,0 +1,20 @@
+[sdl]
+fullscreen=false
+fulldouble=false
+fullresolution=original
+windowresolution=1024x768
+output=opengl
+autolock=true
+sensitivity=100
+waitonerror=true
+priority=higher,normal
+mapperfile=mapper-0.74.map
+usescancodes=true
+
+[autoexec]
+mount c c:\VirtualMachines\comp_arch_labs\_Shared
+path=c:\Borlandc\BIN;c:\dn;c:\System
+TURBOKEY A1
+c:
+rem dn
+rem cd Roboczy
