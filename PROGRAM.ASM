@@ -1,80 +1,51 @@
+
+
 ;=============================================================================;
 ;                                                                             ;
-; Plik           : arch1-0e.asm                                               ;
+; Plik           : arch1-1e.asm                                               ;
 ; Format         : EXE                                                        ;
-; Autor          : Przemys�aw Nowak                                           ;
-; Data utworzenia: 23.02.2003                                                 ;
-; Uwagi          : Program przykladowy wyswietlajacy na ekranie napis         ;
-;                  powitalny.                                                 ;
+; Cwiczenie      : Kompilacja, konsolidacja i debugowanie programów           ;
+;                  asemblerowych                                              ;
+; Autorzy        : Imie Nazwisko, Imie Nazwisko, grupa, dzien, godzina zajec  ;
+; Data zaliczenia: DD.MM.ROK                                                  ;
+; Uwagi          : Program znajdujacy najwieksza liczbe w tablicy             ;
 ;                                                                             ;
 ;=============================================================================;
 
-                .MODEL  SMALL
+                .MODEL  TINY
 
 Dane            SEGMENT
 
-Napis           DB      "Witaj swiecie!",13,10,"$"
+DL_TABLICA      EQU     0Bh
+Tablica         DB      05h, 04h, 07h, 10h, 12h, 33h, 15h, 01h, 11h, 08h, 0Ah, 05h
 
 Dane            ENDS
 
-Kod             SEGMENT
 
-                ASSUME  CS:Kod, DS:Dane, SS:Stosik
+Kod             SEGMENT
+                ASSUME  CS:Kod, DS:Dane, SS:Kod
 
 Start:
-; Zaladowanie rejestru segmentowego danych
-                mov     ax, SEG Dane    ; zaladowanie rejestru DS
-                mov     ds, ax          ; segmentem danych
+                mov     ax, SEG Dane
+                mov     ds, ax
+                xor     ax, ax
+                mov     bx, OFFSET Tablica ; pierwszy element tablicy
+                mov     cl, DL_TABLICA ; dlugosc tablicy do CX
+                mov     al, [bx]
+                inc     bx ; nastepny element
+                dec     cl;
+Petla:  
+                cmp     al, [bx] ;porownaj
+                jae     Skok ; jezeli jest  al<=[bx] (mniejsze lub rowne)
+                mov     al, [bx]
+Skok:
+                inc     bx
+                loop    Petla
 
-; Wyczyszczenie ekranu
-                mov     ah, 06h         ; funkcja karty grafiki przewijajaca
-                                        ; linie fragmentu ekranu w gore
-                mov     al, 0           ; liczba linii do przewiniecia -
-                                        ; caly ekran (czyszczenie ekranu)
-                mov     bh, 07          ; atrybut pustych linii - jasnoszary
-                mov     ch, 0           ; wiersz lewego gornego rogu
-                                        ; przewijanego framgmentu - lewy
-                                        ; gorny rog ekranu
-                mov     cl, 0           ; kolumna lewego gornego rogu
-                                        ; przewijanego framgmentu - lewy
-                                        ; gorny rog ekranu
-                mov     dh, 24          ; wiersz prawego dolnego rogu
-                                        ; przewijanego framgmentu - prawy
-                                        ; dolny rog ekranu
-                mov     dl, 79          ; kolumna prawego dolnego rogu
-                                        ; przewijanego framgmentu - prawy
-                                        ; dolny rog ekranu
-                int     10h             ; wywolanie przerwania karty grafiki
-
-; Ustawienie kursora na poczatku ekranu
-                mov     ah, 02h         ; funkcja karty grafiki ustawiajaca
-                                        ; kursor na nowej pozycji
-                mov     bh, 0           ; numer strony trybu graficznego
-                mov     dh, 0           ; wiersz nowej pozycji kursora - lewy
-                                        ; gorny rog ekranu
-                mov     dl, 0           ; kolumna nowej pozycji kursora -
-                                        ; lewy gorny rog ekranu
-                int     10h             ; wywolanie przerwania karty grafiki
-
-; Wyswietlenie napisu w miejscu ustawienia kursora
-                mov     ah, 09h         ; funkcja systemowa wyswietlajaca
-                                        ; napis (zakonczony znakiem '$')
-                mov     dx, OFFSET Napis ; adres napisu do wyswietlenia
-                                         ; (przesuniecie w segmencie danych)
-                int     21h             ; wywolanie przerwania systemowego
-
-; Zakonczenie programu
-                mov     ax, 4C00h       ; funkcja konczaca program, kod
-                                        ; powrotu - zakonczenie poprawne
-                int     21h             ; wywolanie przerwania systemowego
+                mov     ax, 4C00h
+                int     21h
 
 Kod             ENDS
+                END    Start
 
-Stosik          SEGMENT STACK
-
-                DB      100h DUP (?)
-
-Stosik          ENDS
-
-                END     Start
 
