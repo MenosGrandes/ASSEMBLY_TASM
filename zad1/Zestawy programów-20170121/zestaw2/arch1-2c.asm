@@ -1,55 +1,47 @@
-                .MODEL  SMALL
+ ; COM                                                        ;
+ ; Cwiczenie      : Kompilacja, konsolidacja i debugowanie programów           ;
+ ;                  asemblerowych                                              ;
+ ; Autorzy        : Imie Nazwisko, Imie Nazwisko, grupa, dzien, godzina zajec  ;
+ ; Data zaliczenia: DD.MM.ROK                                                  ;
+ ; Uwagi          : Program znajdujacy najmniejsza liczbe w tablicy            ;
+ ;                                                                             ;
+ ;=============================================================================;
+ ;dziala
+                 .MODEL  TINY
+ 
+ Kod             SEGMENT
+ 
+                 ORG     100h
+                 ASSUME  CS:Kod, DS:Kod, SS:Kod
+ 
+ Start:
+ 
+ DL_TABLICA      EQU     0Ch
+ Tablica         DB      04h, 05h, 03h, 10h, 11h, 33h, 15h, 09h, 11h, 02h, 01h, 00h
+ Najmniejsza     DB      ?
+ 
+                 jmp     Poczatek
+ 
+ Poczatek:
+                mov     cl, DL_TABLICA
+                mov     bx, OFFSET Tablica
+                xor 	ax,ax 
+		mov     al, [bx]
+                dec     cl
+                inc     bx
+  Petla:
+                ;mov dx,[bx] 
+		cmp     al, [bx]
+                 jbe     Skok
+                 mov     al, [bx]
+  Skok:
+ 		 inc     bx
+                loop     Petla
+ 
+                 mov     ax, 4C00h
+                 int     21h
+ 
+ Kod            ENDS
+ END		Start
 
-;-------------- SEGMENT DANYCH ---------------
-				
-Dane            SEGMENT
-napis           DB      "Witaj swiecie 123!",13,10,"$"
-Dane            ENDS
 
-;-------------- SEGMENT KODU ---------------
-
-Kod             SEGMENT
-                ASSUME  CS:Kod, DS:Dane, SS:Stosik
-
-				; Zaladowanie rejestru segmentowego danych
-start:			mov     ax, SEG Dane
-                mov     ds, ax 
-
-				; Wyswietlenie napisu w miejscu ustawienia kursora
-                mov     ah, 09h         
-                mov     dx, OFFSET napis
-                int     21h
-				
-				; Rozpoczecie zamiany malych liter na duze
-				mov		si, OFFSET napis	; zaladuj adres napisu do si
-petla:			mov		al, [si]			; zaladuj znak z napisu do al
-				cmp		al, '$'				; porownaj al ze znakiem '$'
-				je		wyswietl			; czy rowne, jesli tak skocz do wyswietl, jesli nie idz dalej
-				cmp		al, 'a'				; porownaj al ze znakiem 'a'
-				jnae	nastepny_znak		; jesli nie al >= 'a' skok do nastepny_znak
-				cmp		al, 'z'				; porownaj al ze znakiem 'z'
-				jnbe	nastepny_znak		; jesli nie al <= 'z' skok do nastepny_znak
-				sub		al, 32				; konweruj mala liere na duza
-				mov		[si], al			; przenies duza litere spowrotem do napisu
-nastepny_znak:	inc		si					; przejdz do nastepnego znaku
-				jmp		petla				; skocz do poczatku petli
-
-				; Wyswietlenie napisu w miejscu ustawienia kursora
-wyswietl:       mov     ah, 09h
-                mov     dx, OFFSET napis
-                int     21h
-				
-				; Zakonczenie programu
-				mov     ax, 4C00h
-                int     21h
-Kod             ENDS
-
-;-------------- SEGMENT STOSU ---------------
-
-Stosik          SEGMENT STACK
-                DB      100h DUP (?)
-Stosik          ENDS
-
-;-------------- PUNKT STARTOWY --------------
-
-                END     start
