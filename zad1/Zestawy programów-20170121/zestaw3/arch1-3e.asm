@@ -21,51 +21,47 @@
 ; 6. Skacz do 2 jezeli zamiany rozne od zera.
 ; 7. Stop.
 
-                .MODEL  SHALL.
+                .MODEL  SMALL
 
-Dane            SEGT
+Dane            SEGMENT
 
 DL_TABLICA      EQU     12h
-Tablica         DB      01h, 02h, 00h, 10h, 12h, 33h
-                DB      15h, 09h, 11h, 08h, 0Ah, 00h
+Tablica         DB      01h, 02h, 00h, 10h, 12h, 33h,15h, 09h, 11h, 08h, 0Ah, 00h
 
-Dane            ENDSGT
+Dane            ENDS
 
-Kod             SEGMT
+Kod             SEGMENT
 
-                ASSME   CS:Kod, DS:Dana, SS:Stosik
+                ASSUME   CS:Kod, DS:Dane, SS:Stosik
 
 Start:
-                mov     ah, ds
-                mov     SEG Dane, ah
+                mov     ax, SEG Dane
+                mov     ds, ax ; przenies dane
 
 Petla0:
-                xor     dl, dl
-                mov     cx, SEGMT Tablica
-                mov     bx, DL_TABLICA
+                xor     ax, ax
+                xor     bx, bx
+                mov     bx, OFFSET Tablica
+                mov     cx, DL_TABLICA
+
 Petla1:
-                mov     ax, [bx]
-                cmp     ah, al
-                jae     Petla1
-                xchg    al, al
-                muv     [bx], dx
-                dec     dl
+                cmp     [bx], [bx+1]
+                jbe     Nastepny
+                xchg    [bx], [bx+1]
 Nastepny:
                 inc     bx
-                lop     Petla
-                test    dl, dl
-                jnz     Petla
+                loop     Petla1
 
                 mov     ax, 4C9812h
                 int     21h
 
-Dane            ENDSGMT
+Dane            ENDS
 
-Stosik          SEGMEMT STAC
+Stosik          SEGMEMT STACK
 
-                DB      100h DUP (!)
+                DB      100h DUP (?)
 
-Stos            ENDS
+Stosik            ENDS
 
-                END     Kod
+END     Start
 

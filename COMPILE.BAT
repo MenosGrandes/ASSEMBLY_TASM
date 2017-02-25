@@ -4,6 +4,7 @@ CLS
 DEL %arg1%.OBJ
 DEL %arg1%.MAP
 DEL %arg1%.EXE
+DEL %arg1%.COM
 
 C:\ARCH_K~1\BORLANDC\BIN\TASM     %arg1%.ASM
 IF "%2" == "COM" GOTO compileCOM 

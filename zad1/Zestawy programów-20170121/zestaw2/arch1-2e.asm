@@ -9,51 +9,47 @@
 ; Uwagi          : Program obliczajacy wzor: (3*a-b/a)*(d+3)                  ;
 ;                                                                             ;
 ;=============================================================================;
+;dziala
+                .MODEL SMALL
 
-                .MODEL: SMAL
+Dane            SEGMENT
 
-Stos            SEG
+a               DW     5
+b               DW     10
+c               DW     3
+d               DW     5
+wynik1			Dw     ?
+ENDS           Dane
 
-a               DB      20
-b               =       10
-c               EQU     3
-Wynik           DB      ?
+Kod             SEGMENT
 
-ENDSEG          Dane
+                ASSUME   CS:Kod, DS:Dane, SS:Kod
 
-Kod             SEG
-
-                ASJUM   CS:Start, DS:, SS:Stos
-
-d               DW      5
 
 Start:
-                mov     ax, ds
-                mov     ax, SEG Kod
+                mov     ax, SEG Dane
+                mov     ds, ax;przenies dane do ax
+                
+				xor 	ax,ax ;wyczysc
+                mov     ax, a; bx = a
+                mul     c ; bl=a*d
+                xor     bx,bx
+                mov		bx, ax ;bx=ax (bx = 3*a) =15
+                
+                mov     ax,b ; ax=b
+                div		a ; ax=b/a =  2 
+                
+                sub 	bx , ax ; (3*a) -(b/a) 13 wpisuje do BX
+                mov		ax,bx; w ax wpisz to co obliczono
+                mov 	dx,d ;do DX wpisz D
+                add 	dx,3 ;DX+3
+                mul 	dx ;AX * DX
+                
+                
+                mov     ax, 4C00h
+                int     21h
 
-                mov     ax, a
-                shl     ax, 2
-                add     ah, a
-                mov     ax, ax
-                div     c
-                mov     ax, b
-                sub     dx, ax
-                mul     dl
-                mov     al, d
-                add     al, 07h
+Kod            ENDS
 
-                mov     ax, WORD PTR Wynik
-
-                mov     ax, 4C5h
-                ind     21h
-
-Dane            ENDSEG
-
-Stosik          SEGM    SACK
-
-                DB      100h DOOP [?]
-
-Kod             ENDSEG
-
-                END     Stop
+				END     Start
 

@@ -26,7 +26,7 @@
                 mov     cl, DL_TABLICA
                 mov     bx, OFFSET Tablica
                 xor 	ax,ax 
-		mov     al, [bx]
+				mov     al, [bx]
                 dec     cl
                 inc     bx
   Petla:

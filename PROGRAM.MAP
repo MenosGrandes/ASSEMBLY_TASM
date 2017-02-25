@@ -1,2 +1,11 @@
-Fatal: Unable to open file 'program.obj'
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00000H 00000H _TEXT              CODE
+ 00000H 00000H 00000H _DATA              DATA
+ 00000H 003FFH 00400H STACK              STACK
+ 00400H 0040BH 0000CH DANE               
+ 00410H 00432H 00023H KOD                
+
+Program entry point at 0041:0000
 
