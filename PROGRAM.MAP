@@ -3,9 +3,9 @@
 
  00000H 00000H 00000H _TEXT              CODE
  00000H 00000H 00000H _DATA              DATA
- 00000H 003FFH 00400H STACK              STACK
- 00400H 00407H 00008H DANE               
- 00410H 00444H 00035H KOD                
+ 00000H 0000EH 0000FH CODE               
+ 00010H 00015H 00006H DATA               
 
-Program entry point at 0041:0000
+Program entry point at 0000:0000
+Warning: No stack
 

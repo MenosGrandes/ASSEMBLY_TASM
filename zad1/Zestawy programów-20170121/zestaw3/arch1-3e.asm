@@ -21,66 +21,44 @@
 ; 6. Skacz do 2 jezeli zamiany rozne od zera.
 ; 7. Stop.
 
+		.MODEL SMALL	
+DATA 		SEGMENT
+TAB DB 12H,01H,03H,64H,87H
+DLUGOSC_TAB	DB 04h
+DATA 		ENDS
+ 
+CODE 		SEGMENT
+		ASSUME CS:CODE,DS:DATA
+START: 
+	MOV 	AX,SEG DATA ; zaladuj dane
+	MOV 	DS,AX ;przenies do ds(DATA SEGMENT)
+	MOV 	CH,DLUGOSC_TAB; do CH przenies dlugosc tablicy
+UP2: 
+	MOV 	CL,DLUGOSC_TAB; do CL przenies dlugosc tablicy
+	LEA 	SI,TAB; pobierz offset do TAB(pierwszy element)
+	XOR 	BL,BL;wyczysc rejestr w ktorym trzymane jest czy byla zamiana czy nie
+UP1: 
+	MOV AX,[SI] ; wrzuc pierwszy element do AX (w AL bedzie pierwsza wartosc i AH bedzie nastepna bo tablica jest DB)
+	CMP AL,AH ; porownaj wartosci. Tak naprawde oblicza sobie AH-AL. Wiec jezeli wyjdzie ujemna to CF jest ustawiane i przez to dziala.
+	JC DOWN	;jezeli jest przeniesienie czyli
+	;===== ZAMIEN
+	MOV DL,[SI+1]
+	XCHG [SI],DL
+	MOV [SI+1],DL
+	;=====
+	INC BL
+DOWN: 
+	INC SI
+	DEC CL ;sprawdz czy to ostatni indeks w petli wewnetrznej
+	JNZ UP1
+	TEST BL,BL ; byla chociaz jedna zamiana
+	JZ	KONIEC;jezeli nie bylo to znaczy ze jest posortowane
+	DEC CH
+	JNZ UP2; sprawdz czy to ostatni ineks w petli zewnetrznej
+ KONIEC:
+ 
+   	MOV     AX, 4C00h
+	INT     21h
 
-;chyba dziala
-                .MODEL  SMALL
-.stack
-Dane            SEGMENT
-
-DL_TABLICA      DW     05h
-Tablica         DB      01h, 02h, 00h, 10h, 12h, 33h
-;01 02 00 10 12 33
-;01 00 02 10 12 33
-;00 01 02 10 12 33
-;
-;
-
-Dane            ENDS
-
-Kod             SEGMENT
-
-                ASSUME   CS:Kod, DS:Dane, SS:Dane
-
-Start:
-                mov     ax, SEG Dane
-                mov     ds, ax ; przenies dane
-				xor 	dx,dx
-				
-			
-				
-				
-Petla0:
-                xor     bx, bx
-                mov     bx, OFFSET Tablica
-                xor		cx,cx;zacznij od indeksu 0
-                xor     ax, ax
-
-Petla1:
-				mov 	ax,[bx] ;wrzuc dwa elementy do ax
-                cmp     al,ah ;sprawdz czy element w ah<al, czy uporzadkowane
-                jae     Nastepny;jezeli uporzadkowane to skocz do Nastepny
-                xchg    ah, al ; jak nie to zamien
-Nastepny:
-                inc     bx ;zmniejsz indeks
-                inc		cx;zmniejsz licznik
-                cmp		cx,DL_TABLICA;sprawdz czy nie ostatni indeks
-                jne 	Petla1 ;jezeli ni ostatni to sprawdzaj dalej
-                ;zacznij od poczatku pomijajac ostatni element w tablicy
-                inc		dx;zwieksz licznik zewnetrzny
-                mov		ax,DL_TABLICA ;zmien dlugoscc tablicy
-                sub		ax,dx
-                mov		DL_TABLICA,ax ;wstaw noga dlugosc zmniejszona o ilosc razy zewnetrznej petli
-                
-                cmp		DL_TABLICA,3;jezeli zostaly 3 elementy to skoncz
-                jbe 	Petla0 ;jezeli ni ostatni to sprawdzaj dalej
-				
-				
-				
-                mov     ax, 4C00h
-                int     21h
-
-Kod            ENDS
-
-
-END     Start
-
+CODE 		ENDS
+END 	START
