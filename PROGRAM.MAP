@@ -4,8 +4,8 @@
  00000H 00000H 00000H _TEXT              CODE
  00000H 00000H 00000H _DATA              DATA
  00000H 003FFH 00400H STACK              STACK
- 00400H 0040BH 0000CH DANE               
- 00410H 00432H 00023H KOD                
+ 00400H 00407H 00008H DANE               
+ 00410H 00444H 00035H KOD                
 
 Program entry point at 0041:0000
 

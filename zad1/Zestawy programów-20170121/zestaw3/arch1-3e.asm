@@ -21,47 +21,66 @@
 ; 6. Skacz do 2 jezeli zamiany rozne od zera.
 ; 7. Stop.
 
-                .MODEL  SMALL
 
+;chyba dziala
+                .MODEL  SMALL
+.stack
 Dane            SEGMENT
 
-DL_TABLICA      EQU     12h
-Tablica         DB      01h, 02h, 00h, 10h, 12h, 33h,15h, 09h, 11h, 08h, 0Ah, 00h
+DL_TABLICA      DW     05h
+Tablica         DB      01h, 02h, 00h, 10h, 12h, 33h
+;01 02 00 10 12 33
+;01 00 02 10 12 33
+;00 01 02 10 12 33
+;
+;
 
 Dane            ENDS
 
 Kod             SEGMENT
 
-                ASSUME   CS:Kod, DS:Dane, SS:Stosik
+                ASSUME   CS:Kod, DS:Dane, SS:Dane
 
 Start:
                 mov     ax, SEG Dane
                 mov     ds, ax ; przenies dane
-
+				xor 	dx,dx
+				
+			
+				
+				
 Petla0:
-                xor     ax, ax
                 xor     bx, bx
                 mov     bx, OFFSET Tablica
-                mov     cx, DL_TABLICA
+                xor		cx,cx;zacznij od indeksu 0
+                xor     ax, ax
 
 Petla1:
-                cmp     [bx], [bx+1]
-                jbe     Nastepny
-                xchg    [bx], [bx+1]
+				mov 	ax,[bx] ;wrzuc dwa elementy do ax
+                cmp     al,ah ;sprawdz czy element w ah<al, czy uporzadkowane
+                jae     Nastepny;jezeli uporzadkowane to skocz do Nastepny
+                xchg    ah, al ; jak nie to zamien
 Nastepny:
-                inc     bx
-                loop     Petla1
-
-                mov     ax, 4C9812h
+                inc     bx ;zmniejsz indeks
+                inc		cx;zmniejsz licznik
+                cmp		cx,DL_TABLICA;sprawdz czy nie ostatni indeks
+                jne 	Petla1 ;jezeli ni ostatni to sprawdzaj dalej
+                ;zacznij od poczatku pomijajac ostatni element w tablicy
+                inc		dx;zwieksz licznik zewnetrzny
+                mov		ax,DL_TABLICA ;zmien dlugoscc tablicy
+                sub		ax,dx
+                mov		DL_TABLICA,ax ;wstaw noga dlugosc zmniejszona o ilosc razy zewnetrznej petli
+                
+                cmp		DL_TABLICA,3;jezeli zostaly 3 elementy to skoncz
+                jbe 	Petla0 ;jezeli ni ostatni to sprawdzaj dalej
+				
+				
+				
+                mov     ax, 4C00h
                 int     21h
 
-Dane            ENDS
+Kod            ENDS
 
-Stosik          SEGMEMT STACK
-
-                DB      100h DUP (?)
-
-Stosik            ENDS
 
 END     Start
 
