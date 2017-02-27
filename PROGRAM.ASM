@@ -1,45 +1,50 @@
 ;=============================================================================;
 ;                                                                             ;
-; Plik           : arch1-3e.asm                                               ;
-; Format         : EXE                                                        ;
+; Plik           : arch1-5c.asm                                               ;
+; Format         : COM                                                        ;
 ; Cwiczenie      : Kompilacja, konsolidacja i debugowanie programów           ;
 ;                  asemblerowych                                              ;
 ; Autorzy        : Imie Nazwisko, Imie Nazwisko, grupa, dzien, godzina zajec  ;
 ; Data zaliczenia: DD.MM.ROK                                                  ;
-; Uwagi          : Program sortujacy liczby w tablicy metoda babelkowa        ;
+; Uwagi          : Program obliczajacy wzor: (a*b+c*d)/(a-d)                  ;
 ;                                                                             ;
 ;=============================================================================;
 
-; Algorytm sortowania babelkowego:
-; 1. Start.
-; 2. index = 0; zamiany = 0;
-; 3. Odczytaj dwa sasiadujace elementy z tablicy o pozycjach index oraz
-;    index + 1; jezeli pierwszy z odczytanych elementow jest wiekszy od
-;    swojego nastepnika, to zamien elementy miejscami oraz zwieksz zamiany.
-; 4. Zwieksz index o jeden.
-; 5. Jezeli index < dlugosc_tablicy - 2 to skacz do 3.
-; 6. Skacz do 2 jezeli zamiany rozne od zera.
-; 7. Stop.
+                MODEL  TINY
 
-		.MODEL SMALL	
-DATA 		SEGMENT
-TAB DB 12H,01H,03H,64H,87H
-DLUGOSC_TAB	DB 04h
-DATA 		ENDS
- 
-CODE 		SEGMENT
-		ASSUME CS:CODE,DS:DATA
-START: 
-	MOV 	AX,SEG DATA ; zaladuj dane
-	MOV 	DS,AX ;przenies do ds(DATA SEGMENT)
+Kod             SEGMENT
+	
+                ORG      100h
+                ASSUME  CS:Kod, DS:Kod, SS:Kod
 
- mov    ax,2c00h
- int    21h
- 
- 
- 
-   	MOV     AX, 4C00h
-	INT     21h
+Start:
+        a               DB      20
+		b               DB      10
+		c               DB      5
+		d               DB      3
+                
+         jmp      Poczotek
 
-CODE 		ENDS
-END 	START
+
+Poczotek:
+			xor ax,ax
+			mov al,a
+			mul b ;al = a*b
+			mov bl,al
+			mov al,c
+			mul d ;al = c*d
+			add al,bl ; bl=a*b + c*d
+			mov bl,a
+			sub bl,d ; d= d-a
+			div bl ;(a*b+c*d)/(a-d)
+			
+			
+
+
+                mov     ax, 4C25h
+                int     21h
+
+Kod            ENDS
+
+END Start
+
