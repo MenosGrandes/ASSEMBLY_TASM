@@ -1,0 +1,6 @@
+Edit dosbox-<version>.conf file
+
+To mount directory from local host:
+mount c <borlandCDir>
+c:
+set PATH=%PATH%;C:\<DOSBOX_PATH_TO_BORLANDC>
